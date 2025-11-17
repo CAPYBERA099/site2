@@ -161,22 +161,23 @@
                         </div>
                         <h3 class="download-title">Установщик</h3>
                         <p class="download-description">Скачайте установщик для автоматической установки инжектора</p>
-                        <a href="https://raw.githubusercontent.com/CAPYBERA099/setup/main/RobloxInjectorSetup.exe" 
-                           class="btn btn-primary btn-large" 
-                           download="RobloxInjectorSetup.exe"
-                           id="downloadBtn"
-                           target="_blank">
+                        <button class="btn btn-primary btn-large" disabled style="opacity: 0.6; cursor: not-allowed;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
-                            Скачать установщик
-                        </a>
+                            Загрузка временно недоступна
+                        </button>
                         <p class="download-note">Размер: ~2 MB | Версия: <span id="downloadVersion">Загрузка...</span></p>
-                        <p class="download-alternative" id="releaseLinkContainer" style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary); display: none;">
-                            Или скачайте <a href="#" id="releaseLink" target="_blank" style="color: var(--accent-primary); text-decoration: none;">последний релиз напрямую</a>
-                        </p>
+                        <div class="warning-box" style="margin-top: 1rem;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                            <p>Загрузка временно приостановлена. Пожалуйста, проверьте позже.</p>
+                        </div>
                     </div>
                     <div class="download-info">
                         <h4>Инструкция по установке:</h4>
@@ -283,8 +284,52 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Заблокированная версия script.js
+        document.addEventListener('DOMContentLoaded', function() {
+            // Отображаем сообщение о временной недоступности
+            document.getElementById('version').textContent = 'Временно недоступно';
+            document.getElementById('downloadVersion').textContent = 'Временно недоступно';
+            
+            // Блокируем все ссылки на скачивание
+            const downloadLinks = document.querySelectorAll('a[href*="download"], a[href*="github.com/releases"]');
+            downloadLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Загрузка временно недоступна. Пожалуйста, попробуйте позже.');
+                });
+            });
+
+            // Блокируем функциональность Script Hub
+            document.getElementById('scriptSearch').disabled = true;
+            document.getElementById('scriptSearch').placeholder = 'Поиск временно недоступен';
+            
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            categoryBtns.forEach(btn => {
+                btn.disabled = true;
+            });
+            
+            document.getElementById('styleSelector').disabled = true;
+            
+            // Показываем сообщение о блокировке в Script Hub
+            document.getElementById('scriptsContainer').innerHTML = `
+                <div class="script-loading">
+                    <div class="warning-box" style="text-align: center; max-width: 400px; margin: 0 auto;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <h3 style="margin: 1rem 0 0.5rem 0;">Script Hub временно недоступен</h3>
+                        <p>Функциональность будет восстановлена в ближайшее время</p>
+                    </div>
+                </div>
+            `;
+            
+            // Блокируем пагинацию
+            document.getElementById('prevPage').disabled = true;
+            document.getElementById('nextPage').disabled = true;
+        });
+    </script>
 </body>
 </html>
-
-
