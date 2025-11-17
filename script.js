@@ -96,7 +96,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Add CSS for spinning animation
+// Add CSS for spinning animation and shimmer effect
 const style = document.createElement('style');
 style.textContent = `
     @keyframes spin {
@@ -105,6 +105,24 @@ style.textContent = `
     }
     .spinning {
         animation: spin 1s linear infinite;
+    }
+    .logo-text, .gradient-text {
+        position: relative;
+        overflow: hidden;
+    }
+    .logo-text::before, .gradient-text::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        animation: shine-sweep 3s infinite;
+    }
+    @keyframes shine-sweep {
+        0% { left: -100%; }
+        100% { left: 100%; }
     }
 `;
 document.head.appendChild(style);
