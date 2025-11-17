@@ -5,20 +5,24 @@
 }
 
 :root {
-    --bg-primary: #0a0b0f;
-    --bg-secondary: #0f1117;
-    --bg-card: #151821;
-    --accent-primary: #22a3ff;
-    --accent-secondary: #7c3aed;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --border-color: #1f2329;
-    --gradient-1: linear-gradient(135deg, #22a3ff 0%, #7c3aed 100%);
-    --gradient-2: linear-gradient(135deg, #7c3aed 0%, #22a3ff 100%);
+    --bg-primary: #06070d;
+    --bg-secondary: #080910;
+    --bg-card: #080912;
+    --bg-panel: #141414;
+    --accent-primary: #1d6bce;
+    --accent-secondary: #22a2ff;
+    --accent-button: #0f5ab5;
+    --text-primary: #afcfff;
+    --text-secondary: #7889a6;
+    --text-white: #f5f5f5;
+    --border-color: #1a1a1a;
+    --gradient-1: linear-gradient(135deg, #1d6bce 0%, #22a2ff 100%);
+    --gradient-2: linear-gradient(135deg, #22a2ff 0%, #1d6bce 100%);
+    --gradient-text: linear-gradient(135deg, #afcfff 0%, #22a2ff 50%, #afcfff 100%);
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -112,12 +116,26 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: var(--gradient-1);
+    font-size: 1.75rem;
+    font-weight: 900;
+    font-family: 'Segoe UI Black', 'Segoe UI', sans-serif;
+    color: transparent;
+    background: var(--gradient-text);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: shimmer-text 3s linear infinite;
+    position: relative;
+}
+
+@keyframes shimmer-text {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
 }
 
 .status-dot {
@@ -183,18 +201,22 @@ body {
 
 .hero-title {
     font-size: 4rem;
-    font-weight: 700;
+    font-weight: 900;
+    font-family: 'Segoe UI Black', 'Segoe UI', sans-serif;
     margin-bottom: 1.5rem;
     line-height: 1.2;
 }
 
 .gradient-text {
-    background: var(--gradient-1);
+    color: transparent;
+    background: var(--gradient-text);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     position: relative;
     display: inline-block;
+    animation: shimmer-text 3s linear infinite;
 }
 
 .gradient-text::after {
@@ -204,10 +226,18 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--gradient-1);
-    filter: blur(20px);
-    opacity: 0.5;
+    background: linear-gradient(90deg, transparent, rgba(175, 207, 255, 0.3), transparent);
+    animation: shine 2s infinite;
     z-index: -1;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 .hero-description {
@@ -238,14 +268,17 @@ body {
 }
 
 .btn-primary {
-    background: var(--gradient-1);
-    color: white;
-    box-shadow: 0 4px 15px rgba(34, 163, 255, 0.3);
+    background: var(--accent-button);
+    color: var(--text-white);
+    box-shadow: 0 4px 15px rgba(29, 107, 206, 0.3);
+    border: 1px solid var(--accent-primary);
 }
 
 .btn-primary:hover {
+    background: var(--accent-primary);
+    border-color: var(--accent-secondary);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(34, 163, 255, 0.4);
+    box-shadow: 0 6px 20px rgba(29, 107, 206, 0.4);
 }
 
 .btn-secondary {
@@ -278,10 +311,7 @@ body {
 .stat-value {
     font-size: 2.5rem;
     font-weight: 700;
-    background: var(--gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--accent-secondary);
     margin-bottom: 0.5rem;
 }
 
@@ -300,10 +330,7 @@ section {
     font-weight: 700;
     text-align: center;
     margin-bottom: 4rem;
-    background: var(--gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-primary);
 }
 
 /* Features */
@@ -316,7 +343,7 @@ section {
 .feature-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: 18px;
     padding: 2rem;
     transition: all 0.3s;
 }
@@ -324,19 +351,20 @@ section {
 .feature-card:hover {
     transform: translateY(-5px);
     border-color: var(--accent-primary);
-    box-shadow: 0 10px 30px rgba(34, 163, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(29, 107, 206, 0.2);
+    background: var(--bg-secondary);
 }
 
 .feature-icon {
     width: 64px;
     height: 64px;
-    background: var(--gradient-1);
-    border-radius: 12px;
+    background: var(--accent-primary);
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5rem;
-    color: white;
+    color: var(--text-white);
 }
 
 .feature-title {
@@ -373,13 +401,13 @@ section {
 .download-icon {
     width: 80px;
     height: 80px;
-    background: var(--gradient-1);
-    border-radius: 16px;
+    background: var(--accent-primary);
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
-    color: white;
+    color: var(--text-white);
 }
 
 .download-title {
