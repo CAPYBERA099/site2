@@ -190,8 +190,11 @@ async function getLatestVersion() {
 // Script Hub functionality
 const scriptsData = [];
 let filteredScripts = [];
+let currentPage = 1;
+const scriptsPerPage = 9;
+let currentStyle = 'default';
 
-// Popular scripts from rbxscripts (simulated - in real implementation would fetch from API)
+// Popular scripts from rbxscripts
 const popularScripts = [
     {
         name: "Infinite Yield",
@@ -248,6 +251,146 @@ const popularScripts = [
         script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt'))()",
         category: "utility",
         author: "CriShoux"
+    },
+    {
+        name: "Hydroxide",
+        description: "Advanced script executor and debugger",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Upbolt/Hydroxide/revision/init.lua'))()",
+        category: "exploit",
+        author: "Upbolt"
+    },
+    {
+        name: "Dex Explorer",
+        description: "Advanced Roblox explorer tool",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/infyiff/backup/main/dex.lua'))()",
+        category: "utility",
+        author: "infyiff"
+    },
+    {
+        name: "Simple Admin",
+        description: "Simple admin commands script",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Stefanuk12/ROBLOX/master/Games/SimpleAdmin.lua'))()",
+        category: "admin",
+        author: "Stefanuk12"
+    },
+    {
+        name: "Chat Logger",
+        description: "Log and monitor chat messages",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/7kayoh/ChatLogger/main/ChatLogger.lua'))()",
+        category: "utility",
+        author: "7kayoh"
+    },
+    {
+        name: "Aimbot",
+        description: "Aimbot script for FPS games",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/7kayoh/Aimbot/main/Aimbot.lua'))()",
+        category: "game",
+        author: "7kayoh"
+    },
+    {
+        name: "ESP Gui",
+        description: "ESP script with GUI for players",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua'))()",
+        category: "exploit",
+        author: "ic3w0lf22"
+    },
+    {
+        name: "Admin Commands",
+        description: "Comprehensive admin commands system",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()",
+        category: "admin",
+        author: "EdgeIY"
+    },
+    {
+        name: "Speed Hack",
+        description: "Speed modification script",
+        script: "game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50",
+        category: "game",
+        author: "Community"
+    },
+    {
+        name: "Fly Script",
+        description: "Fly script for movement",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt'))()",
+        category: "game",
+        author: "XNEOFF"
+    },
+    {
+        name: "Auto Farm",
+        description: "Automatic farming script",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/YourUsername/AutoFarm/main/script.lua'))()",
+        category: "game",
+        author: "Community"
+    },
+    {
+        name: "Item ESP",
+        description: "ESP for items and objects",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua'))()",
+        category: "exploit",
+        author: "ic3w0lf22"
+    },
+    {
+        name: "Anti AFK",
+        description: "Prevent AFK kick",
+        script: "local vu = game:GetService('VirtualUser'); game:GetService('Players').LocalPlayer.Idled:connect(function() vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame); wait(1); vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame); end)",
+        category: "utility",
+        author: "Community"
+    },
+    {
+        name: "Rejoin Script",
+        description: "Automatically rejoin game",
+        script: "game:GetService('TeleportService'):Teleport(game.PlaceId, game:GetService('Players').LocalPlayer)",
+        category: "utility",
+        author: "Community"
+    },
+    {
+        name: "TP Script",
+        description: "Teleport to players",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Stefanuk12/ROBLOX/master/Games/Universal/TPTool.lua'))()",
+        category: "utility",
+        author: "Stefanuk12"
+    },
+    {
+        name: "Noclip",
+        description: "Walk through walls",
+        script: "game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)",
+        category: "game",
+        author: "Community"
+    },
+    {
+        name: "Invisible",
+        description: "Make character invisible",
+        script: "for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do if v:IsA('BasePart') and v.Name ~='HumanoidRootPart' then v.Transparency = 1 end end",
+        category: "game",
+        author: "Community"
+    },
+    {
+        name: "God Mode",
+        description: "Invincibility script",
+        script: "game.Players.LocalPlayer.Character.Humanoid:Remove()",
+        category: "game",
+        author: "Community"
+    },
+    {
+        name: "Auto Clicker",
+        description: "Automatic clicking",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/YourUsername/AutoClicker/main/script.lua'))()",
+        category: "game",
+        author: "Community"
+    },
+    {
+        name: "GUI Library",
+        description: "Advanced GUI library",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/Library.lua'))()",
+        category: "utility",
+        author: "violin-suzutsuki"
+    },
+    {
+        name: "Notification System",
+        description: "Custom notification system",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/YourUsername/Notifications/main/script.lua'))()",
+        category: "utility",
+        author: "Community"
     }
 ];
 
@@ -255,8 +398,11 @@ const popularScripts = [
 function initializeScriptHub() {
     scriptsData.push(...popularScripts);
     filteredScripts = [...scriptsData];
+    currentPage = 1;
     renderScripts();
     setupFilters();
+    setupPagination();
+    setupStyleSelector();
 }
 
 // Render scripts
@@ -266,10 +412,16 @@ function renderScripts() {
 
     if (filteredScripts.length === 0) {
         container.innerHTML = '<div class="script-error">Скрипты не найдены</div>';
+        updatePagination();
         return;
     }
 
-    container.innerHTML = filteredScripts.map(script => `
+    // Вычисляем индексы для текущей страницы
+    const startIndex = (currentPage - 1) * scriptsPerPage;
+    const endIndex = Math.min(startIndex + scriptsPerPage, filteredScripts.length);
+    const scriptsToShow = filteredScripts.slice(startIndex, endIndex);
+
+    container.innerHTML = scriptsToShow.map(script => `
         <div class="script-card">
             <div class="script-card-header">
                 <h3 class="script-name">${escapeHtml(script.name)}</h3>
@@ -294,6 +446,8 @@ function renderScripts() {
             </div>
         </div>
     `).join('');
+
+    updatePagination();
 }
 
 // Setup filters
@@ -325,10 +479,12 @@ function filterScripts(searchQuery, category) {
     filteredScripts = scriptsData.filter(script => {
         const matchesSearch = !searchQuery || 
             script.name.toLowerCase().includes(searchQuery) ||
-            script.description.toLowerCase().includes(searchQuery);
+            script.description.toLowerCase().includes(searchQuery) ||
+            (script.author && script.author.toLowerCase().includes(searchQuery));
         const matchesCategory = category === 'all' || script.category === category;
         return matchesSearch && matchesCategory;
     });
+    currentPage = 1; // Сбрасываем на первую страницу при фильтрации
     renderScripts();
 }
 
@@ -387,6 +543,91 @@ function unescapeScript(escaped) {
 function truncateScript(script, maxLength) {
     if (script.length <= maxLength) return script;
     return script.substring(0, maxLength) + '...';
+}
+
+// Pagination functions
+function setupPagination() {
+    const prevBtn = document.getElementById('prevPage');
+    const nextBtn = document.getElementById('nextPage');
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderScripts();
+            }
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const maxPages = Math.ceil(filteredScripts.length / scriptsPerPage);
+            if (currentPage < maxPages) {
+                currentPage++;
+                renderScripts();
+            }
+        });
+    }
+}
+
+function updatePagination() {
+    const prevBtn = document.getElementById('prevPage');
+    const nextBtn = document.getElementById('nextPage');
+    const pageInfo = document.getElementById('pageInfo');
+
+    if (!prevBtn || !nextBtn || !pageInfo) return;
+
+    const maxPages = Math.ceil(filteredScripts.length / scriptsPerPage);
+    const startIndex = (currentPage - 1) * scriptsPerPage + 1;
+    const endIndex = Math.min(currentPage * scriptsPerPage, filteredScripts.length);
+
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage >= maxPages;
+
+    if (filteredScripts.length === 0) {
+        pageInfo.textContent = 'Скрипты не найдены';
+    } else {
+        pageInfo.textContent = `Страница ${currentPage} из ${maxPages} (${startIndex}-${endIndex} из ${filteredScripts.length})`;
+    }
+}
+
+// Style selector
+function setupStyleSelector() {
+    const styleSelector = document.getElementById('styleSelector');
+    if (styleSelector) {
+        styleSelector.addEventListener('change', (e) => {
+            currentStyle = e.target.value;
+            applyStyle(currentStyle);
+        });
+    }
+}
+
+function applyStyle(style) {
+    document.body.classList.remove('style-default', 'style-fatality');
+    
+    if (style === 'fatality') {
+        document.body.classList.add('style-fatality');
+        // Применяем стиль Fatality
+        document.documentElement.style.setProperty('--bg-primary', '#0a0a0a');
+        document.documentElement.style.setProperty('--bg-secondary', '#0f0f0f');
+        document.documentElement.style.setProperty('--bg-card', '#141414');
+        document.documentElement.style.setProperty('--accent-primary', '#dc2626');
+        document.documentElement.style.setProperty('--accent-secondary', '#ef4444');
+        document.documentElement.style.setProperty('--text-primary', '#ffffff');
+        document.documentElement.style.setProperty('--text-secondary', '#a0a0a0');
+        document.documentElement.style.setProperty('--border-color', '#1f1f1f');
+    } else {
+        document.body.classList.add('style-default');
+        // Возвращаем стиль по умолчанию
+        document.documentElement.style.setProperty('--bg-primary', '#06070d');
+        document.documentElement.style.setProperty('--bg-secondary', '#080910');
+        document.documentElement.style.setProperty('--bg-card', '#080912');
+        document.documentElement.style.setProperty('--accent-primary', '#1d6bce');
+        document.documentElement.style.setProperty('--accent-secondary', '#22a2ff');
+        document.documentElement.style.setProperty('--text-primary', '#afcfff');
+        document.documentElement.style.setProperty('--text-secondary', '#7889a6');
+        document.documentElement.style.setProperty('--border-color', '#1a1a1a');
+    }
 }
 
 // Initialize Script Hub on page load

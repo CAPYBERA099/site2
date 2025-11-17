@@ -530,6 +530,40 @@ section {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.style-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.style-selector label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.style-select {
+    padding: 0.5rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.style-select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+}
+
+.style-select:hover {
+    border-color: var(--accent-primary);
 }
 
 .category-btn {
@@ -690,6 +724,104 @@ section {
     background: rgba(220, 53, 69, 0.1);
     border: 1px solid rgba(220, 53, 69, 0.3);
     border-radius: 8px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+}
+
+.pagination-btn {
+    width: 48px;
+    height: 48px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 107, 206, 0.3);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Fatality Style */
+.style-fatality {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #0f0f0f;
+    --bg-card: #141414;
+    --accent-primary: #dc2626;
+    --accent-secondary: #ef4444;
+    --accent-button: #b91c1c;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --border-color: #1f1f1f;
+}
+
+.style-fatality .logo-text,
+.style-fatality .gradient-text {
+    background: linear-gradient(135deg, #ffffff 0%, #dc2626 50%, #ffffff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.style-fatality .btn-primary {
+    background: var(--accent-button);
+    border-color: var(--accent-primary);
+}
+
+.style-fatality .btn-primary:hover {
+    background: var(--accent-primary);
+    border-color: var(--accent-secondary);
+}
+
+.style-fatality .script-btn-copy {
+    background: var(--accent-primary);
+}
+
+.style-fatality .script-btn-copy:hover {
+    background: var(--accent-secondary);
+}
+
+.style-fatality .category-btn.active {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.style-fatality .script-category {
+    background: var(--accent-primary);
+}
+
+.style-fatality .pagination-btn:hover:not(:disabled) {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
 /* About */
