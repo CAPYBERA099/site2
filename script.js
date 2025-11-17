@@ -185,9 +185,214 @@ async function getLatestVersion() {
     }
 }
 
-// Load version on page load
+// Load version on page load (moved to end of file)
+
+// Script Hub functionality
+const scriptsData = [];
+let filteredScripts = [];
+
+// Popular scripts from rbxscripts (simulated - in real implementation would fetch from API)
+const popularScripts = [
+    {
+        name: "Infinite Yield",
+        description: "Powerful admin commands script with extensive features",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()",
+        category: "admin",
+        author: "EdgeIY"
+    },
+    {
+        name: "Remote Spy",
+        description: "Monitor and intercept remote events and functions",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpySource.lua'))()",
+        category: "exploit",
+        author: "78n"
+    },
+    {
+        name: "FPS Unlocker",
+        description: "Unlock FPS cap for better performance",
+        script: "setfpscap(999)",
+        category: "utility",
+        author: "Community"
+    },
+    {
+        name: "CMD-X",
+        description: "Advanced command executor with many features",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/CMD-X/CMD-X/master/Source', true))()",
+        category: "admin",
+        author: "CMD-X"
+    },
+    {
+        name: "Simple Spy",
+        description: "Simple remote event spy for debugging",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpySource.lua'))()",
+        category: "exploit",
+        author: "78n"
+    },
+    {
+        name: "Dark Dex",
+        description: "Advanced explorer and debugger tool",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua', true))()",
+        category: "utility",
+        author: "Babyhamsta"
+    },
+    {
+        name: "Unnamed ESP",
+        description: "ESP script for players and objects",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua'))()",
+        category: "exploit",
+        author: "ic3w0lf22"
+    },
+    {
+        name: "Owl Hub",
+        description: "Popular script hub with multiple games support",
+        script: "loadstring(game:HttpGet('https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt'))()",
+        category: "utility",
+        author: "CriShoux"
+    }
+];
+
+// Initialize Script Hub
+function initializeScriptHub() {
+    scriptsData.push(...popularScripts);
+    filteredScripts = [...scriptsData];
+    renderScripts();
+    setupFilters();
+}
+
+// Render scripts
+function renderScripts() {
+    const container = document.getElementById('scriptsContainer');
+    if (!container) return;
+
+    if (filteredScripts.length === 0) {
+        container.innerHTML = '<div class="script-error">Скрипты не найдены</div>';
+        return;
+    }
+
+    container.innerHTML = filteredScripts.map(script => `
+        <div class="script-card">
+            <div class="script-card-header">
+                <h3 class="script-name">${escapeHtml(script.name)}</h3>
+                <span class="script-category">${script.category}</span>
+            </div>
+            <p class="script-description">${escapeHtml(script.description)}</p>
+            <div class="script-preview">${escapeHtml(truncateScript(script.script, 150))}</div>
+            <div class="script-actions">
+                <button class="script-btn script-btn-copy" onclick="copyScript('${escapeScript(script.script)}', this)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Копировать
+                </button>
+                <button class="script-btn script-btn-execute" onclick="executeScript('${escapeScript(script.script)}')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    Выполнить
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Setup filters
+function setupFilters() {
+    const searchInput = document.getElementById('scriptSearch');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+
+    // Search filter
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            filterScripts(query, getActiveCategory());
+        });
+    }
+
+    // Category filter
+    categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            categoryButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const query = searchInput ? searchInput.value.toLowerCase() : '';
+            filterScripts(query, btn.dataset.category);
+        });
+    });
+}
+
+// Filter scripts
+function filterScripts(searchQuery, category) {
+    filteredScripts = scriptsData.filter(script => {
+        const matchesSearch = !searchQuery || 
+            script.name.toLowerCase().includes(searchQuery) ||
+            script.description.toLowerCase().includes(searchQuery);
+        const matchesCategory = category === 'all' || script.category === category;
+        return matchesSearch && matchesCategory;
+    });
+    renderScripts();
+}
+
+// Get active category
+function getActiveCategory() {
+    const activeBtn = document.querySelector('.category-btn.active');
+    return activeBtn ? activeBtn.dataset.category : 'all';
+}
+
+// Copy script to clipboard
+function copyScript(script, button) {
+    const decodedScript = unescapeScript(script);
+    navigator.clipboard.writeText(decodedScript).then(() => {
+        const originalText = button.innerHTML;
+        button.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Скопировано!
+        `;
+        button.style.background = '#10b981';
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.style.background = '';
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        alert('Не удалось скопировать скрипт');
+    });
+}
+
+// Execute script (opens injector or shows instructions)
+function executeScript(script) {
+    const decodedScript = unescapeScript(script);
+    // Copy to clipboard and show instructions
+    navigator.clipboard.writeText(decodedScript).then(() => {
+        alert('Скрипт скопирован в буфер обмена!\n\nОткройте инжектор и вставьте скрипт в редактор, затем нажмите "Execute".');
+    });
+}
+
+// Utility functions
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function escapeScript(script) {
+    return script.replace(/'/g, "\\'").replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+}
+
+function unescapeScript(escaped) {
+    return escaped.replace(/\\'/g, "'").replace(/\\n/g, "\n").replace(/\\r/g, "\r");
+}
+
+function truncateScript(script, maxLength) {
+    if (script.length <= maxLength) return script;
+    return script.substring(0, maxLength) + '...';
+}
+
+// Initialize Script Hub on page load
 document.addEventListener('DOMContentLoaded', () => {
     getLatestVersion();
+    initializeScriptHub();
 });
 
 // Check if download link is accessible

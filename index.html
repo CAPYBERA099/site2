@@ -25,6 +25,7 @@
                 </div>
                 <div class="nav-links">
                     <a href="#features">Возможности</a>
+                    <a href="#script-hub">Script Hub</a>
                     <a href="#download">Скачать</a>
                     <a href="#about">О проекте</a>
                 </div>
@@ -41,7 +42,7 @@
                     </h1>
                     <p style="font-size: 1.5rem; color: var(--text-secondary); margin-top: 0.5rem;">Roblox Injector</p>
                     <p class="hero-description">
-                        Лучший инжектор на роблокс с открытым исходным кодом
+                        Мощный и современный инжектор для Roblox с поддержкой QuorumAPI
                     </p>
                     <div class="hero-buttons">
                         <a href="#download" class="btn btn-primary">
@@ -198,6 +199,26 @@
             </div>
         </section>
 
+        <section id="script-hub" class="script-hub">
+            <div class="container">
+                <h2 class="section-title">Script Hub</h2>
+                <div class="script-hub-content">
+                    <div class="script-hub-filters">
+                        <input type="text" id="scriptSearch" placeholder="Поиск скриптов..." class="script-search">
+                        <div class="script-categories">
+                            <button class="category-btn active" data-category="all">Все</button>
+                            <button class="category-btn" data-category="admin">Admin</button>
+                            <button class="category-btn" data-category="exploit">Exploit</button>
+                            <button class="category-btn" data-category="utility">Utility</button>
+                        </div>
+                    </div>
+                    <div id="scriptsContainer" class="scripts-grid">
+                        <div class="script-loading">Загрузка скриптов...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="about" class="about">
             <div class="container">
                 <h2 class="section-title">О проекте</h2>
@@ -244,5 +265,4 @@
     <script src="script.js"></script>
 </body>
 </html>
-
 
