@@ -185,6 +185,103 @@ async function getLatestVersion() {
     }
 }
 
+async function loadVersionHistory() {
+    const versionList = document.getElementById('versionList');
+    if (!versionList) return;
+
+    versionList.innerHTML = '<div class="version-loading">Загрузка версий...</div>';
+
+    try {
+        const response = await fetch('https://api.github.com/repos/CAPYBERA099/WenzInjector-ROBLOX/releases?per_page=6');
+        if (!response.ok) {
+            throw new Error(`Failed to fetch releases: ${response.status}`);
+        }
+
+        const releases = await response.json();
+
+        if (!Array.isArray(releases) || releases.length === 0) {
+            versionList.innerHTML = '<div class="version-empty">Пока нет дополнительных опубликованных версий.</div>';
+            return;
+        }
+
+        versionList.innerHTML = releases.map(renderVersionCard).join('');
+    } catch (error) {
+        console.error('Error loading version history:', error);
+        versionList.innerHTML = `
+            <div class="version-error">
+                <div>Не удалось загрузить список релизов GitHub.</div>
+                <button type="button" class="version-retry-btn">Повторить</button>
+            </div>
+        `;
+
+        const retryButton = versionList.querySelector('.version-retry-btn');
+        if (retryButton) {
+            retryButton.addEventListener('click', () => loadVersionHistory());
+        }
+    }
+}
+
+function renderVersionCard(release) {
+    const tag = release.tag_name || release.name || 'v1.0.0';
+    const date = formatReleaseDate(release.published_at || release.created_at);
+    const notes = formatReleaseNotes(release.body);
+    const downloadUrl = getReleaseDownloadLink(release);
+    const releaseLink = release.html_url;
+
+    const downloadButton = downloadUrl ? `
+        <a class="btn btn-primary" href="${downloadUrl}" target="_blank" rel="noopener noreferrer">
+            Скачать
+        </a>
+    ` : '';
+
+    return `
+        <div class="version-card">
+            <div class="version-card-header">
+                <div>
+                    <div class="version-label">GitHub release</div>
+                    <h4>${escapeHtml(tag)}</h4>
+                </div>
+                <div class="version-date">${date}</div>
+            </div>
+            <p class="version-notes">${escapeHtml(notes)}</p>
+            <div class="version-actions">
+                <a class="btn btn-secondary" href="${releaseLink}" target="_blank" rel="noopener noreferrer">Подробнее</a>
+                ${downloadButton}
+            </div>
+        </div>
+    `;
+}
+
+function formatReleaseDate(dateString) {
+    if (!dateString) return '—';
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return '—';
+    return date.toLocaleDateString('ru-RU', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+    });
+}
+
+function formatReleaseNotes(body) {
+    if (!body) return 'Описание релиза отсутствует.';
+    const firstLine = body.split('\n').find(line => line.trim().length > 0) || body;
+    return firstLine.replace(/[#>*-]/g, '').trim().slice(0, 220) + (body.length > 220 ? '…' : '');
+}
+
+function getReleaseDownloadLink(release) {
+    if (release.assets && release.assets.length > 0) {
+        const preferredAsset = release.assets.find(asset =>
+            asset.name.toLowerCase().includes('setup') ||
+            asset.name.toLowerCase().endsWith('.zip') ||
+            asset.name.toLowerCase().includes('roblox')
+        );
+        const asset = preferredAsset || release.assets[0];
+        return asset.browser_download_url;
+    }
+    return release.zipball_url || release.tarball_url || '';
+}
+
 // Load version on page load (moved to end of file)
 
 // Script Hub functionality
@@ -193,6 +290,9 @@ let filteredScripts = [];
 let currentPage = 1;
 const scriptsPerPage = 9;
 let currentStyle = 'default';
+let currentSearchQuery = '';
+let rbxScriptsLoaded = false;
+let scriptHubMessageTimeout;
 
 // Popular scripts from rbxscripts
 const popularScripts = [
@@ -403,6 +503,7 @@ function initializeScriptHub() {
     setupFilters();
     setupPagination();
     setupStyleSelector();
+    fetchRbxScripts();
 }
 
 // Render scripts
@@ -428,6 +529,7 @@ function renderScripts() {
                 <span class="script-category">${script.category}</span>
             </div>
             <p class="script-description">${escapeHtml(script.description)}</p>
+            ${script.sourceLink ? `<a class="script-source-link" href="${escapeHtml(script.sourceLink)}" target="_blank" rel="noopener noreferrer">Источник</a>` : ''}
             <div class="script-preview">${escapeHtml(truncateScript(script.script, 150))}</div>
             <div class="script-actions">
                 <button class="script-btn script-btn-copy" onclick="copyScript('${escapeScript(script.script)}', this)">
@@ -457,9 +559,10 @@ function setupFilters() {
 
     // Search filter
     if (searchInput) {
+        currentSearchQuery = searchInput.value.toLowerCase();
         searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            filterScripts(query, getActiveCategory());
+            currentSearchQuery = e.target.value.toLowerCase();
+            filterScripts(currentSearchQuery, getActiveCategory());
         });
     }
 
@@ -468,14 +571,13 @@ function setupFilters() {
         btn.addEventListener('click', () => {
             categoryButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const query = searchInput ? searchInput.value.toLowerCase() : '';
-            filterScripts(query, btn.dataset.category);
+            filterScripts(currentSearchQuery, btn.dataset.category);
         });
     });
 }
 
 // Filter scripts
-function filterScripts(searchQuery, category) {
+function filterScripts(searchQuery, category, resetPage = true) {
     filteredScripts = scriptsData.filter(script => {
         const matchesSearch = !searchQuery || 
             script.name.toLowerCase().includes(searchQuery) ||
@@ -484,7 +586,9 @@ function filterScripts(searchQuery, category) {
         const matchesCategory = category === 'all' || script.category === category;
         return matchesSearch && matchesCategory;
     });
-    currentPage = 1; // Сбрасываем на первую страницу при фильтрации
+    if (resetPage) {
+        currentPage = 1; // Сбрасываем на первую страницу при фильтрации
+    }
     renderScripts();
 }
 
@@ -633,6 +737,7 @@ function applyStyle(style) {
 // Initialize Script Hub on page load
 document.addEventListener('DOMContentLoaded', () => {
     getLatestVersion();
+    loadVersionHistory();
     initializeScriptHub();
 });
 
@@ -646,4 +751,123 @@ fetch('https://raw.githubusercontent.com/CAPYBERA099/setup/main/RobloxInjectorSe
     .catch(error => {
         console.warn('Could not verify download link:', error);
     });
+
+async function fetchRbxScripts() {
+    const endpoint = 'https://rbxscript.com/wp-json/wp/v2/posts?per_page=12&_fields=id,title,link,date,excerpt,content';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    try {
+        const response = await fetch(endpoint, {
+            headers: { 'Accept': 'application/json' },
+            signal: controller.signal,
+            mode: 'cors'
+        });
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            throw new Error(`RBXScript responded with status ${response.status}`);
+        }
+
+        const posts = await response.json();
+
+        if (!Array.isArray(posts) || posts.length === 0) {
+            showScriptHubMessage('RBXScript не вернул новые записи.', 'warning');
+            return;
+        }
+
+        const normalized = posts
+            .map(normalizeRbxScriptPost)
+            .filter(Boolean);
+
+        if (normalized.length === 0) {
+            showScriptHubMessage('Не удалось извлечь содержимое скриптов с RBXScript.', 'warning');
+            return;
+        }
+
+        scriptsData.push(...normalized);
+        rbxScriptsLoaded = true;
+        filterScripts(currentSearchQuery, getActiveCategory(), false);
+        showScriptHubMessage(`Загружено ${normalized.length} скриптов с RBXScript.com`, 'success');
+    } catch (error) {
+        clearTimeout(timeoutId);
+        console.error('Error fetching RBXScript scripts:', error);
+        showScriptHubMessage('Не удалось загрузить скрипты с RBXScript.com. Возможно, сайт требует дополнительного подтверждения.', 'error');
+    }
+}
+
+function normalizeRbxScriptPost(post) {
+    if (!post || !post.content || !post.content.rendered) return null;
+
+    const name = decodeHtmlEntities(post.title?.rendered || 'RBXScript');
+    const description = stripHtmlTags(post.excerpt?.rendered || '').trim() || 'Скрипт с rbxscript.com';
+    const scriptBody = extractScriptFromContent(post.content.rendered);
+
+    if (!scriptBody) return null;
+
+    return {
+        name,
+        description,
+        script: scriptBody,
+        category: 'utility',
+        author: 'rbxscript.com',
+        sourceLink: post.link
+    };
+}
+
+function extractScriptFromContent(html) {
+    if (!html) return '';
+    try {
+        if (typeof DOMParser !== 'undefined') {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const codeBlock = doc.querySelector('pre code') || doc.querySelector('code');
+            if (codeBlock && codeBlock.textContent) {
+                return codeBlock.textContent.trim();
+            }
+        }
+    } catch (error) {
+        console.warn('Failed to parse HTML content', error);
+    }
+
+    // Fallback: strip HTML and attempt to extract long code-like text
+    const text = stripHtmlTags(html);
+    const lines = text.split('\n').map(line => line.trim());
+    const scriptLines = lines.filter(line => line.includes('loadstring') || line.includes('game:'));
+    return scriptLines.join('\n').trim();
+}
+
+function stripHtmlTags(html) {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, '').replace(/\s+\n/g, '\n');
+}
+
+function decodeHtmlEntities(html) {
+    if (!html) return '';
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+}
+
+function showScriptHubMessage(message, type = 'info') {
+    const container = document.querySelector('.script-hub-content');
+    if (!container) return;
+
+    let banner = document.getElementById('scriptHubMessage');
+    if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'scriptHubMessage';
+        banner.className = 'script-hub-message';
+        container.insertBefore(banner, container.firstChild);
+    }
+
+    banner.textContent = message;
+    banner.dataset.state = type;
+    banner.classList.add('visible');
+
+    clearTimeout(scriptHubMessageTimeout);
+    scriptHubMessageTimeout = setTimeout(() => {
+        banner.classList.remove('visible');
+    }, 6000);
+}
 

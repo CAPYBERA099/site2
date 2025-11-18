@@ -490,6 +490,146 @@ section {
     font-size: 0.875rem;
 }
 
+.version-history {
+    margin-top: 3rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.version-history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.version-history-header h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.version-history-header p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.version-history-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.version-history-link:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-secondary);
+}
+
+.version-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.version-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.version-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.version-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.version-card-header h4 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.version-date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.version-notes {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.version-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.version-actions .btn {
+    flex: 1;
+    justify-content: center;
+}
+
+.version-loading,
+.version-empty,
+.version-error {
+    grid-column: 1 / -1;
+    padding: 2rem;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+    border-radius: 12px;
+    color: var(--text-secondary);
+}
+
+.version-error {
+    border-color: rgba(220, 53, 69, 0.4);
+    color: #f87171;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.version-error button {
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-primary);
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.version-error button:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-secondary);
+}
+
 /* Script Hub */
 .script-hub {
     background: var(--bg-secondary);
@@ -642,6 +782,21 @@ section {
     min-height: 40px;
 }
 
+.script-source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--accent-secondary);
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+}
+
+.script-source-link:hover {
+    color: var(--accent-primary);
+    text-decoration: underline;
+}
+
 .script-preview {
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
@@ -724,6 +879,38 @@ section {
     background: rgba(220, 53, 69, 0.1);
     border: 1px solid rgba(220, 53, 69, 0.3);
     border-radius: 8px;
+}
+
+.script-hub-message {
+    display: none;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: rgba(8, 9, 18, 0.9);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: opacity 0.3s ease;
+}
+
+.script-hub-message.visible {
+    display: block;
+    opacity: 1;
+}
+
+.script-hub-message[data-state="success"] {
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #34d399;
+}
+
+.script-hub-message[data-state="warning"] {
+    border-color: rgba(251, 191, 36, 0.4);
+    color: #fbbf24;
+}
+
+.script-hub-message[data-state="error"] {
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
 }
 
 /* Pagination */
