@@ -109,8 +109,43 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Get latest version from GitHub releases
+const VERSION_METADATA_URL = 'https://raw.githubusercontent.com/CAPYBERA099/WenzInjector-ROBLOX/main/RobloxInjector%20by%20WenzHack/version.json';
+
+// Get latest version from shared metadata file (fallback to GitHub API)
 async function getLatestVersion() {
+    try {
+        const metadata = await fetchVersionMetadata();
+        const cleanVersion = sanitizeVersion(metadata.version);
+        updateVersionDisplays(cleanVersion);
+        updateReleaseMetadata({
+            releaseUrl: metadata.releaseUrl,
+            downloadUrl: metadata.downloadUrl
+        });
+        return cleanVersion;
+    } catch (error) {
+        console.warn('Version metadata file unavailable, fallback to GitHub releases.', error);
+        return await fetchLatestVersionFromGitHub();
+    }
+}
+
+async function fetchVersionMetadata() {
+    const response = await fetch(`${VERSION_METADATA_URL}?t=${Date.now()}`, {
+        cache: 'no-cache'
+    });
+
+    if (!response.ok) {
+        throw new Error(`Version metadata request failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    if (!data.version) {
+        throw new Error('Version metadata is missing the "version" field');
+    }
+
+    return data;
+}
+
+async function fetchLatestVersionFromGitHub() {
     try {
         const response = await fetch('https://api.github.com/repos/CAPYBERA099/WenzInjector-ROBLOX/releases/latest');
         if (!response.ok) {
@@ -119,25 +154,11 @@ async function getLatestVersion() {
         
         const data = await response.json();
         const version = data.tag_name || data.name || 'v1.0.0';
+        const cleanVersion = sanitizeVersion(version);
         
-        // Remove 'v' prefix if present and clean version
-        let cleanVersion = version.replace(/^v/i, '').trim();
-        
-        // Update version in hero stats
-        const versionElement = document.getElementById('version');
-        if (versionElement) {
-            versionElement.textContent = cleanVersion;
-        }
-        
-        // Update version in download section
-        const downloadVersionElement = document.getElementById('downloadVersion');
-        if (downloadVersionElement) {
-            downloadVersionElement.textContent = cleanVersion;
-        }
-        
-        // Store release info for potential use
+        updateVersionDisplays(cleanVersion);
+
         if (data.assets && data.assets.length > 0) {
-            // Look for zip file in assets
             const zipAsset = data.assets.find(asset => 
                 asset.name.toLowerCase().endsWith('.zip') || 
                 asset.name.toLowerCase().includes('neverwenz') ||
@@ -145,18 +166,50 @@ async function getLatestVersion() {
             );
             
             if (zipAsset) {
-                // Store release URL for potential direct download option
-                window.latestReleaseUrl = zipAsset.browser_download_url;
+                updateReleaseMetadata({ downloadUrl: zipAsset.browser_download_url });
                 console.log('Latest release archive:', zipAsset.browser_download_url);
             }
         }
         
-        // Store release page URL
-        window.latestReleasePageUrl = data.html_url;
+        updateReleaseMetadata({ releaseUrl: data.html_url });
         
-        // Update release link if available
+        return cleanVersion;
+    } catch (error) {
+        console.error('Error fetching version from GitHub:', error);
+        updateVersionDisplays('v1.0.0');
+        return 'v1.0.0';
+    }
+}
+
+function sanitizeVersion(version) {
+    if (!version) return 'v1.0.0';
+    return version.toString().replace(/^v/i, '').trim();
+}
+
+function updateVersionDisplays(versionText) {
+    const value = versionText || 'v1.0.0';
+    const versionElement = document.getElementById('version');
+    if (versionElement) {
+        versionElement.textContent = value;
+    }
+
+    const downloadVersionElement = document.getElementById('downloadVersion');
+    if (downloadVersionElement) {
+        downloadVersionElement.textContent = value;
+    }
+}
+
+function updateReleaseMetadata({ releaseUrl, downloadUrl }) {
+    if (downloadUrl) {
+        window.latestReleaseUrl = downloadUrl;
+    }
+    if (releaseUrl) {
+        window.latestReleasePageUrl = releaseUrl;
+    }
+
         const releaseLink = document.getElementById('releaseLink');
         const releaseLinkContainer = releaseLink?.parentElement;
+
         if (releaseLink && window.latestReleasePageUrl) {
             releaseLink.href = window.latestReleasePageUrl;
             if (releaseLinkContainer) {
@@ -165,24 +218,6 @@ async function getLatestVersion() {
         } else if (releaseLinkContainer) {
             releaseLinkContainer.style.display = 'none';
         }
-        
-        return cleanVersion;
-    } catch (error) {
-        console.error('Error fetching version:', error);
-        
-        // Set default version on error
-        const versionElement = document.getElementById('version');
-        if (versionElement) {
-            versionElement.textContent = 'v1.0.0';
-        }
-        
-        const downloadVersionElement = document.getElementById('downloadVersion');
-        if (downloadVersionElement) {
-            downloadVersionElement.textContent = 'v1.0.0';
-        }
-        
-        return 'v1.0.0';
-    }
 }
 
 async function loadVersionHistory() {
@@ -587,7 +622,7 @@ function filterScripts(searchQuery, category, resetPage = true) {
         return matchesSearch && matchesCategory;
     });
     if (resetPage) {
-        currentPage = 1; // Сбрасываем на первую страницу при фильтрации
+    currentPage = 1; // Сбрасываем на первую страницу при фильтрации
     }
     renderScripts();
 }
