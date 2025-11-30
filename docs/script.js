@@ -1,11 +1,10 @@
 // Установка даты релиза
 document.addEventListener('DOMContentLoaded', function() {
-    const releaseDate = new Date().toLocaleDateString('ru-RU', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-    document.getElementById('release-date').textContent = releaseDate;
+    const releaseDate = '01.01.2026';
+    const releaseDateElement = document.getElementById('release-date');
+    if (releaseDateElement) {
+        releaseDateElement.textContent = releaseDate;
+    }
 });
 
 // Мобильное меню
