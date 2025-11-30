@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antonov - Бета-тест 3.0</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>ANTONOV</h1>
+                <span class="beta-badge">BETA 3.0</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#about">О игре</a></li>
+                <li><a href="#features">Особенности</a></li>
+                <li><a href="#download">Скачать</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Главный экран -->
+    <section id="home" class="hero">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="beta-notice">
+                    <span class="pulse">🔴</span>
+                    <span>БЕТА-ТЕСТ ВЕРСИИ 3</span>
+                </div>
+                <h1 class="hero-title">ANTONOV</h1>
+                <p class="hero-subtitle">Погрузитесь в захватывающий мир приключений</p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary">
+                        <span>Скачать игру</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </a>
+                    <a href="#about" class="btn btn-secondary">Узнать больше</a>
+                </div>
+                <div class="version-info">
+                    <p>Текущая версия: <strong>Beta 3</strong></p>
+                    <p>Дата релиза: <strong id="release-date">01.01.2026</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+        </div>
+    </section>
+
+    <!-- О игре -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>О игре</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Добро пожаловать в Antonov</h3>
+                    <p>
+                        Antonov - это увлекательная игра, которая перенесет вас в захватывающий мир приключений. 
+                        Исследуйте огромные территории, сражайтесь с врагами и открывайте новые горизонты.
+                    </p>
+                    <p>
+                        В <strong>бета-тесте версии 3.0</strong> мы добавили множество новых функций, улучшили 
+                        игровой процесс и исправили множество багов. Присоединяйтесь к тестированию и помогите 
+                        нам сделать игру еще лучше!
+                    </p>
+                    <div class="beta-features">
+                        <h4>Что нового в Beta 3.0:</h4>
+                        <ul>
+                            <li>✅ Улучшенная система террейна с ручным рисованием тропинок</li>
+                            <li>✅ Новая система генерации ландшафта</li>
+                            <li>✅ Оптимизация производительности</li>
+                            <li>✅ Исправление критических багов</li>
+                            <li>✅ Улучшенный пользовательский интерфейс</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <span>📷 Скриншот игры</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Особенности -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Особенности</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Увлекательный геймплей</h3>
+                    <p>Динамичный игровой процесс с множеством возможностей для исследования и приключений</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Огромный открытый мир</h3>
+                    <p>Исследуйте обширные территории с разнообразным ландшафтом и скрытыми секретами</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚔️</div>
+                    <h3>Боевая система</h3>
+                    <p>Сражайтесь с врагами используя различные виды оружия и тактики</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Красивая графика</h3>
+                    <p>Современная визуальная составляющая с детализированными текстурами и эффектами</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Постоянные обновления</h3>
+                    <p>Регулярные обновления с новым контентом и улучшениями на основе отзывов бета-тестеров</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Сообщество</h3>
+                    <p>Присоединяйтесь к активному сообществу игроков и делитесь своими впечатлениями</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Скачать -->
+    <section id="download" class="download">
+        <div class="container">
+            <div class="section-header">
+                <h2>Скачать игру</h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Скачайте бета-версию 3.0 и начните свое приключение прямо сейчас!</p>
+            </div>
+            <div class="download-content">
+                <div class="download-card">
+                    <div class="download-icon">📦</div>
+                    <h3>Beta 3.0</h3>
+                    <p class="download-size">Размер: ~150 MB</p>
+                    <p class="download-info">Версия для Android</p>
+                    <a href="#" class="btn btn-download" id="downloadBtn" onclick="downloadAPK(event)">
+                        <span>Скачать APK</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </a>
+                    <div class="beta-warning">
+                        <p>⚠️ Это бета-версия. Могут встречаться ошибки и недоработки.</p>
+                    </div>
+                </div>
+                <div class="download-requirements">
+                    <h4>Системные требования:</h4>
+                    <ul>
+                        <li>Android 6.0 или выше</li>
+                        <li>2 GB RAM (рекомендуется 3 GB)</li>
+                        <li>500 MB свободного места</li>
+                        <li>Интернет-соединение для некоторых функций</li>
+                    </ul>
+                    <h4>Инструкция по установке:</h4>
+                    <ol>
+                        <li>Скачайте APK файл</li>
+                        <li>Разрешите установку из неизвестных источников в настройках Android</li>
+                        <li>Откройте скачанный файл и установите игру</li>
+                        <li>Наслаждайтесь игрой!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ANTONOV</h4>
+                    <p>Бета-тест версии 3.0</p>
+                    <p>Присоединяйтесь к тестированию и помогите улучшить игру!</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Ссылки</h4>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#about">О игре</a></li>
+                        <li><a href="#features">Особенности</a></li>
+                        <li><a href="#download">Скачать</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>Для отзывов и предложений:</p>
+                    <p>beta@antonov.game</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Antonov. Все права защищены. Beta 3.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
