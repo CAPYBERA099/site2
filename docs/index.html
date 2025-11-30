@@ -3,300 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEVERWENZ - Roblox Injector</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Antonov - Бета-тест 3.0</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background">
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
-        <div class="gradient-orb orb-3"></div>
-    </div>
-
+    <!-- Навигация -->
     <nav class="navbar">
         <div class="container">
-            <div class="nav-content">
-                <div class="logo">
-                    <span class="logo-text">NEVERWENZ</span>
-                    <span class="status-dot"></span>
-                </div>
-                <div class="nav-links">
-                    <a href="#features">Возможности</a>
-                    <a href="#script-hub">Script Hub</a>
-                    <a href="#download">Скачать</a>
-                    <a href="#versions">Версии</a>
-                    <a href="#about">О проекте</a>
-                </div>
+            <div class="nav-brand">
+                <h1>ANTONOV</h1>
+                <span class="beta-badge">BETA 3.0</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#about">О игре</a></li>
+                <li><a href="#features">Особенности</a></li>
+                <li><a href="#download">Скачать</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </nav>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        <span class="gradient-text">NEVERWENZ</span>
-                    </h1>
-                    <p style="font-size: 1.5rem; color: var(--text-secondary); margin-top: 0.5rem;">Roblox Injector</p>
-                    <p class="hero-description">
-                        Мощный и современный инжектор для Roblox с поддержкой QuorumAPI
+    <!-- Главный экран -->
+    <section id="home" class="hero">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="beta-notice">
+                    <span class="pulse">🔴</span>
+                    <span>БЕТА-ТЕСТ ВЕРСИИ 3.0</span>
+                </div>
+                <h1 class="hero-title">ANTONOV</h1>
+                <p class="hero-subtitle">Погрузитесь в захватывающий мир приключений</p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary">
+                        <span>Скачать игру</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </a>
+                    <a href="#about" class="btn btn-secondary">Узнать больше</a>
+                </div>
+                <div class="version-info">
+                    <p>Текущая версия: <strong>Beta 3.0</strong></p>
+                    <p>Дата релиза: <strong id="release-date"></strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+        </div>
+    </section>
+
+    <!-- О игре -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>О игре</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Добро пожаловать в Antonov</h3>
+                    <p>
+                        Antonov - это увлекательная игра, которая перенесет вас в захватывающий мир приключений. 
+                        Исследуйте огромные территории, сражайтесь с врагами и открывайте новые горизонты.
                     </p>
-                    <div class="hero-buttons">
-                        <a href="#download" class="btn btn-primary">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                            Скачать сейчас
-                        </a>
-                        <a href="https://github.com/CAPYBERA099/WenzInjector-ROBLOX" target="_blank" class="btn btn-secondary">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                            </svg>
-                            GitHub
-                        </a>
+                    <p>
+                        В <strong>бета-тесте версии 3.0</strong> мы добавили множество новых функций, улучшили 
+                        игровой процесс и исправили множество багов. Присоединяйтесь к тестированию и помогите 
+                        нам сделать игру еще лучше!
+                    </p>
+                    <div class="beta-features">
+                        <h4>Что нового в Beta 3.0:</h4>
+                        <ul>
+                            <li>✅ Улучшенная система террейна с ручным рисованием тропинок</li>
+                            <li>✅ Новая система генерации ландшафта</li>
+                            <li>✅ Оптимизация производительности</li>
+                            <li>✅ Исправление критических багов</li>
+                            <li>✅ Улучшенный пользовательский интерфейс</li>
+                        </ul>
                     </div>
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <div class="stat-value" id="version">Загрузка...</div>
-                            <div class="stat-label">Текущая версия</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">100%</div>
-                            <div class="stat-label">Безопасность</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">∞</div>
-                            <div class="stat-label">Возможности</div>
-                        </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <span>📷 Скриншот игры</span>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="features" class="features">
-            <div class="container">
-                <h2 class="section-title">Возможности</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                <path d="M2 17l10 5 10-5"></path>
-                                <path d="M2 12l10 5 10-5"></path>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">QuorumAPI</h3>
-                        <p class="feature-description">Полная поддержка QuorumAPI с автоматическим обновлением и спуфером</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="16 18 22 12 16 6"></polyline>
-                                <polyline points="8 6 2 12 8 18"></polyline>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Автоматическое обновление</h3>
-                        <p class="feature-description">Инжектор автоматически проверяет и устанавливает новые версии</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="9" y1="3" x2="9" y2="21"></line>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Редактор скриптов</h3>
-                        <p class="feature-description">Встроенный редактор с нумерацией строк и анимациями ввода</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Script Hub</h3>
-                        <p class="feature-description">Встроенный хаб скриптов с возможностью копирования и выполнения</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Безопасность</h3>
-                        <p class="feature-description">Защита от обнаружения с помощью спуфера и других методов</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Современный UI</h3>
-                        <p class="feature-description">Красивый минималистичный интерфейс в стиле neverlose</p>
-                    </div>
+    <!-- Особенности -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Особенности</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Увлекательный геймплей</h3>
+                    <p>Динамичный игровой процесс с множеством возможностей для исследования и приключений</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Огромный открытый мир</h3>
+                    <p>Исследуйте обширные территории с разнообразным ландшафтом и скрытыми секретами</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚔️</div>
+                    <h3>Боевая система</h3>
+                    <p>Сражайтесь с врагами используя различные виды оружия и тактики</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Красивая графика</h3>
+                    <p>Современная визуальная составляющая с детализированными текстурами и эффектами</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Постоянные обновления</h3>
+                    <p>Регулярные обновления с новым контентом и улучшениями на основе отзывов бета-тестеров</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Сообщество</h3>
+                    <p>Присоединяйтесь к активному сообществу игроков и делитесь своими впечатлениями</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="download" class="download">
-            <div class="container">
-                <h2 class="section-title">Скачать</h2>
-                <div class="download-content">
-                    <div class="download-card">
-                        <div class="download-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                        </div>
-                        <h3 class="download-title">Установщик</h3>
-                        <p class="download-description">Скачайте установщик для автоматической установки инжектора</p>
-                        <a href="https://raw.githubusercontent.com/CAPYBERA099/setup/main/RobloxInjectorSetup.exe" 
-                           class="btn btn-primary btn-large" 
-                           download="RobloxInjectorSetup.exe"
-                           id="downloadBtn"
-                           target="_blank">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                            Скачать установщик
-                        </a>
-                        <p class="download-note">Размер: ~2 MB | Версия: <span id="downloadVersion">Загрузка...</span></p>
-                        <p class="download-alternative" id="releaseLinkContainer" style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary); display: none;">
-                            Или скачайте <a href="#" id="releaseLink" target="_blank" style="color: var(--accent-primary); text-decoration: none;">последний релиз напрямую</a>
-                        </p>
-                    </div>
-                    <div class="download-info">
-                        <h4>Инструкция по установке:</h4>
-                        <ol>
-                            <li>Скачайте установщик выше</li>
-                            <li>Запустите RobloxInjectorSetup.exe</li>
-                            <li>Следуйте инструкциям мастера установки</li>
-                            <li>После установки запустите файл на рабочем столе</li>
-                        </ol>
-                        <div class="warning-box">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                                <line x1="12" y1="9" x2="12" y2="13"></line>
-                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                            </svg>
-                            <p>Перед установкой рекомендуется отключить антивирус на время установки</p>
-                        </div>
+    <!-- Скачать -->
+    <section id="download" class="download">
+        <div class="container">
+            <div class="section-header">
+                <h2>Скачать игру</h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Скачайте бета-версию 3.0 и начните свое приключение прямо сейчас!</p>
+            </div>
+            <div class="download-content">
+                <div class="download-card">
+                    <div class="download-icon">📦</div>
+                    <h3>Beta 3.0</h3>
+                    <p class="download-size">Размер: ~150 MB</p>
+                    <p class="download-info">Версия для Android</p>
+                    <a href="https://drive.google.com/uc?export=download&id=1NLA512Esf2-FrHwSoK-mXuAlHorPxaCz" class="btn btn-download" target="_blank" rel="noopener noreferrer">
+                        <span>Скачать APK</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </a>
+                    <div class="beta-warning">
+                        <p>⚠️ Это бета-версия. Могут встречаться ошибки и недоработки.</p>
                     </div>
                 </div>
-                <div class="version-history" id="versions">
-                    <div class="version-history-header">
-                        <div>
-                            <h3>Другие версии</h3>
-                            <p>Посмотрите предыдущие релизы NEVERWENZ с GitHub</p>
-                        </div>
-                        <a href="https://github.com/CAPYBERA099/WenzInjector-ROBLOX/releases" target="_blank" rel="noopener" class="version-history-link">
-                            Все релизы
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </a>
-                    </div>
-                    <div id="versionList" class="version-list">
-                        <div class="version-loading">Загрузка версий...</div>
-                    </div>
+                <div class="download-requirements">
+                    <h4>Системные требования:</h4>
+                    <ul>
+                        <li>Android 6.0 или выше</li>
+                        <li>2 GB RAM (рекомендуется 3 GB)</li>
+                        <li>500 MB свободного места</li>
+                        <li>Интернет-соединение для некоторых функций</li>
+                    </ul>
+                    <h4>Инструкция по установке:</h4>
+                    <ol>
+                        <li>Скачайте APK файл</li>
+                        <li>Разрешите установку из неизвестных источников в настройках Android</li>
+                        <li>Откройте скачанный файл и установите игру</li>
+                        <li>Наслаждайтесь игрой!</li>
+                    </ol>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="script-hub" class="script-hub">
-            <div class="container">
-                <h2 class="section-title">Script Hub</h2>
-                <div class="script-hub-content">
-                    <div class="script-hub-filters">
-                        <input type="text" id="scriptSearch" placeholder="Поиск скриптов..." class="script-search">
-                        <div class="script-categories">
-                            <button class="category-btn active" data-category="all">Все</button>
-                            <button class="category-btn" data-category="admin">Admin</button>
-                            <button class="category-btn" data-category="exploit">Exploit</button>
-                            <button class="category-btn" data-category="utility">Utility</button>
-                            <button class="category-btn" data-category="game">Game</button>
-                        </div>
-                        <div class="style-selector">
-                            <label>Стиль:</label>
-                            <select id="styleSelector" class="style-select">
-                                <option value="default">По умолчанию</option>
-                                <option value="fatality">Fatality</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div id="scriptsContainer" class="scripts-grid">
-                        <div class="script-loading">Загрузка скриптов...</div>
-                    </div>
-                    <div class="pagination">
-                        <button class="pagination-btn" id="prevPage" disabled>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6"></polyline>
-                            </svg>
-                        </button>
-                        <span class="pagination-info" id="pageInfo">Страница 1 из 1</span>
-                        <button class="pagination-btn" id="nextPage">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="about">
-            <div class="container">
-                <h2 class="section-title">О проекте</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>
-                            <strong>NEVERWENZ</strong> - это современный и мощный инжектор для Roblox, 
-                            разработанный с использованием QuorumAPI. Инжектор предоставляет все необходимые 
-                            инструменты для работы со скриптами в Roblox.
-                        </p>
-                        <p>
-                            Проект полностью открыт и доступен на GitHub. Мы постоянно работаем над улучшением 
-                            функциональности и безопасности инжектора.
-                        </p>
-                    </div>
-                    <div class="about-links">
-                        <a href="https://github.com/CAPYBERA099/WenzInjector-ROBLOX" target="_blank" class="about-link">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                            </svg>
-                            GitHub Repository
-                        </a>
-                        <a href="https://github.com/CAPYBERA099/WenzInjector-ROBLOX/releases" target="_blank" class="about-link">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                            Releases
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
+    <!-- Футер -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>&copy; 2025 NEVERWENZ. Все права защищены.</p>
-                <p>Разработано с ❤️ для сообщества Roblox</p>
+                <div class="footer-section">
+                    <h4>ANTONOV</h4>
+                    <p>Бета-тест версии 3.0</p>
+                    <p>Присоединяйтесь к тестированию и помогите улучшить игру!</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Ссылки</h4>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#about">О игре</a></li>
+                        <li><a href="#features">Особенности</a></li>
+                        <li><a href="#download">Скачать</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>Для отзывов и предложений:</p>
+                    <p>beta@antonov.game</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Antonov. Все права защищены. Beta 3.0</p>
             </div>
         </div>
     </footer>
