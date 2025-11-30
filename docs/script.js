@@ -109,12 +109,47 @@ function animateValue(element, start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
-// Обработка скачивания
+// Функция для принудительного скачивания файла
+function downloadAPK(event) {
+    event.preventDefault();
+    
+    // Прямая ссылка на скачивание из Google Drive
+    const fileId = '1NLA512Esf2-FrHwSoK-mXuAlHorPxaCz';
+    const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}&confirm=t`;
+    
+    // Создаем временную ссылку для скачивания
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'Antonov_Beta_3.0.apk';
+    link.style.display = 'none';
+    
+    // Добавляем в DOM, кликаем и удаляем
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    console.log('Начато скачивание Beta 3.0');
+    
+    // Альтернативный метод через iframe (на случай если первый не сработает)
+    setTimeout(() => {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = downloadUrl;
+        document.body.appendChild(iframe);
+        
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+        }, 1000);
+    }, 100);
+}
+
+// Обработка скачивания (резервный метод)
 document.querySelectorAll('.btn-download').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        // Можно добавить аналитику или подтверждение
-        console.log('Начато скачивание Beta 3.0');
-    });
+    if (btn.id !== 'downloadBtn') {
+        btn.addEventListener('click', function(e) {
+            console.log('Начато скачивание Beta 3.0');
+        });
+    }
 });
 
 // Добавление эффекта наведения на кнопки
