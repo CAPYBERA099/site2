@@ -111,35 +111,51 @@ function animateValue(element, start, end, duration) {
 // Функция для принудительного скачивания файла
 function downloadAPK(event) {
     event.preventDefault();
+    event.stopPropagation();
+    
+    console.log('Кнопка скачивания нажата');
     
     // Прямая ссылка на скачивание из Google Drive
     const fileId = '1NLA512Esf2-FrHwSoK-mXuAlHorPxaCz';
-    const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}&confirm=t`;
     
-    // Создаем временную ссылку для скачивания
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = 'Antonov_Beta_3.0.apk';
-    link.style.display = 'none';
+    // Метод 1: Прямое перенаправление (самый надежный для Google Drive)
+    const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}&confirm=t&uuid=`;
     
-    // Добавляем в DOM, кликаем и удаляем
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Используем window.location для принудительного скачивания
+    window.location.href = downloadUrl;
     
-    console.log('Начато скачивание Beta 3.0');
-    
-    // Альтернативный метод через iframe (на случай если первый не сработает)
+    // Альтернативный метод через создание ссылки
     setTimeout(() => {
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = downloadUrl;
-        document.body.appendChild(iframe);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = 'Antonov_Beta_3.apk';
+        link.target = '_blank';
+        link.style.display = 'none';
+        
+        document.body.appendChild(link);
+        link.click();
         
         setTimeout(() => {
-            document.body.removeChild(iframe);
-        }, 1000);
+            document.body.removeChild(link);
+        }, 100);
     }, 100);
+    
+    console.log('Начато скачивание Beta 3');
+    
+    // Показываем уведомление пользователю
+    const btn = event.target.closest('.btn-download');
+    if (btn) {
+        const originalText = btn.querySelector('span').textContent;
+        btn.querySelector('span').textContent = 'Скачивание...';
+        btn.style.opacity = '0.7';
+        
+        setTimeout(() => {
+            btn.querySelector('span').textContent = originalText;
+            btn.style.opacity = '1';
+        }, 2000);
+    }
+    
+    return false;
 }
 
 // Обработка скачивания (резервный метод)
