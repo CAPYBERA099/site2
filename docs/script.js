@@ -116,7 +116,7 @@ function downloadAPK(event) {
     console.log('Кнопка скачивания нажата');
     
     // Прямая ссылка на скачивание из Google Drive
-    const fileId = '1NLA512Esf2-FrHwSoK-mXuAlHorPxaCz';
+    const fileId = '1YcE_erbYAOh2eKKXeEXBH7nRsaNr2qtW';
     
     // Метод 1: Прямое перенаправление (самый надежный для Google Drive)
     const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}&confirm=t&uuid=`;
